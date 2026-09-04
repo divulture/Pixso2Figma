@@ -1,0 +1,10 @@
+{
+  "name": "Pixso to Figma Importer",
+  "id": "1475061264051117238",
+  "api": "1.0.0",
+  "editorType": ["figma"],
+  "documentAccess": "dynamic-page",
+  "main": "Main.js",
+  "ui": "Ui.html",
+  "menu": [{ "name": "Import Pixso Portable JSON", "command": "import-pixso-portable-json" }]
+}

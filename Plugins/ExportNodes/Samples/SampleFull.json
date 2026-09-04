@@ -1,0 +1,852 @@
+{
+  "format": "pixso-portable-package",
+  "schemaVersion": "1.0.0",
+  "exportMode": "FULL",
+  "createdAt": "2026-07-12T12:08:09.277Z",
+  "source": {
+    "pluginVersion": "1.0.0",
+    "fileKey": "filekey-abc",
+    "fileName": "TestFile",
+    "pageName": "Page 1",
+    "pixsoApiVersion": "1.0-fake"
+  },
+  "roots": [
+    {
+      "nodeRef": "node:screen-checkout-fd32254a",
+      "absolutePosition": {
+        "x": 100,
+        "y": 200
+      },
+      "zIndex": 0,
+      "pageName": "Page 1"
+    },
+    {
+      "nodeRef": "node:broken-area-7532ee87",
+      "absolutePosition": {
+        "x": 600,
+        "y": 200
+      },
+      "zIndex": 1,
+      "pageName": "Page 1"
+    }
+  ],
+  "nodes": {
+    "node:screen-checkout-fd32254a": {
+      "id": "node:screen-checkout-fd32254a",
+      "type": "FRAME",
+      "name": "Screen / Checkout",
+      "position": {
+        "x": 100,
+        "y": 200
+      },
+      "size": {
+        "width": 328,
+        "height": 380
+      },
+      "autoLayout": {
+        "layoutMode": "VERTICAL",
+        "primaryAxisSizingMode": "AUTO",
+        "counterAxisSizingMode": "FIXED",
+        "paddingTop": 24,
+        "paddingRight": 24,
+        "paddingBottom": 24,
+        "paddingLeft": 24,
+        "itemSpacing": 16
+      },
+      "clipsContent": true,
+      "geometry": {
+        "fills": [
+          {
+            "type": "SOLID",
+            "color": {
+              "r": 1,
+              "g": 1,
+              "b": 1
+            }
+          }
+        ]
+      },
+      "styleRefs": {
+        "fill": "style:bg-surface-e241aa23"
+      },
+      "source": {
+        "pixsoNodeId": "frame-screen",
+        "fileKey": "filekey-abc"
+      },
+      "children": [
+        "node:title-1df0ea78",
+        "node:photo-91e9dd6d",
+        "node:icon-close-a118b776",
+        "node:divider-c8704968",
+        "node:button-a972b516"
+      ]
+    },
+    "node:title-1df0ea78": {
+      "id": "node:title-1df0ea78",
+      "type": "TEXT",
+      "name": "Title",
+      "position": {
+        "x": 24,
+        "y": 24
+      },
+      "size": {
+        "width": 280,
+        "height": 32
+      },
+      "source": {
+        "pixsoNodeId": "text-title",
+        "fileKey": "filekey-abc"
+      },
+      "text": {
+        "characters": "Экран покупки",
+        "fontName": {
+          "family": "Inter",
+          "style": "Bold"
+        },
+        "fontSize": 24,
+        "textAlignHorizontal": "LEFT"
+      }
+    },
+    "node:photo-91e9dd6d": {
+      "id": "node:photo-91e9dd6d",
+      "type": "RECTANGLE",
+      "name": "Photo",
+      "position": {
+        "x": 24,
+        "y": 72
+      },
+      "size": {
+        "width": 280,
+        "height": 160
+      },
+      "geometry": {
+        "fills": [
+          {
+            "type": "IMAGE",
+            "imageRef": "image:eeddc1d9b8",
+            "scaleMode": "FILL"
+          }
+        ]
+      },
+      "corners": {
+        "cornerRadius": 12
+      },
+      "source": {
+        "pixsoNodeId": "rect-photo",
+        "fileKey": "filekey-abc"
+      }
+    },
+    "node:icon-close-a118b776": {
+      "id": "node:icon-close-a118b776",
+      "type": "ICON",
+      "name": "Icon/close",
+      "position": {
+        "x": 280,
+        "y": 24
+      },
+      "size": {
+        "width": 24,
+        "height": 24
+      },
+      "source": {
+        "pixsoNodeId": "icon-close",
+        "fileKey": "filekey-abc"
+      },
+      "icon": {
+        "name": "Icon/close",
+        "normalizedName": "close",
+        "detectedVia": "namePrefix"
+      }
+    },
+    "node:divider-c8704968": {
+      "id": "node:divider-c8704968",
+      "type": "VECTOR",
+      "name": "Divider",
+      "position": {
+        "x": 24,
+        "y": 260
+      },
+      "size": {
+        "width": 280,
+        "height": 2
+      },
+      "source": {
+        "pixsoNodeId": "vector-divider",
+        "fileKey": "filekey-abc"
+      },
+      "svgRef": "svg:62354401be"
+    },
+    "node:button-a972b516": {
+      "id": "node:button-a972b516",
+      "type": "INSTANCE",
+      "name": "Button",
+      "position": {
+        "x": 24,
+        "y": 300
+      },
+      "size": {
+        "width": 132,
+        "height": 40
+      },
+      "source": {
+        "pixsoNodeId": "inst-button",
+        "fileKey": "filekey-abc"
+      },
+      "presetRef": "node:button-a972b516",
+      "definitionRef": "component:state-default-c8df7b4e",
+      "definitionSetRef": "set:button-e1e5f532",
+      "children": [
+        "node:label-77351638",
+        "node:sep-e43ff5a1"
+      ]
+    },
+    "node:button-e1e5f532": {
+      "id": "node:button-e1e5f532",
+      "type": "COMPONENT_SET",
+      "name": "Button",
+      "size": {
+        "width": 140,
+        "height": 120
+      },
+      "source": {
+        "pixsoNodeId": "set-button",
+        "fileKey": "filekey-abc"
+      },
+      "children": [
+        "node:state-default-c8df7b4e",
+        "node:state-hover-ad49ea50"
+      ]
+    },
+    "node:state-default-c8df7b4e": {
+      "id": "node:state-default-c8df7b4e",
+      "type": "COMPONENT",
+      "name": "State=Default",
+      "position": {
+        "x": 0,
+        "y": 0
+      },
+      "size": {
+        "width": 120,
+        "height": 40
+      },
+      "autoLayout": {
+        "layoutMode": "HORIZONTAL",
+        "primaryAxisSizingMode": "AUTO",
+        "counterAxisAlignItems": "CENTER",
+        "paddingRight": 16,
+        "paddingLeft": 16,
+        "itemSpacing": 8
+      },
+      "geometry": {
+        "fills": [
+          {
+            "type": "SOLID",
+            "color": {
+              "r": 0.2,
+              "g": 0.4,
+              "b": 1
+            }
+          }
+        ]
+      },
+      "corners": {
+        "cornerRadius": 8
+      },
+      "source": {
+        "pixsoNodeId": "comp-default",
+        "fileKey": "filekey-abc"
+      },
+      "children": [
+        "node:icon-search-b28e0706",
+        "node:label-bf5e7007"
+      ]
+    },
+    "node:icon-search-b28e0706": {
+      "id": "node:icon-search-b28e0706",
+      "type": "ICON",
+      "name": "Icon/search",
+      "position": {
+        "x": 8,
+        "y": 12
+      },
+      "size": {
+        "width": 16,
+        "height": 16
+      },
+      "componentPropertyReferences": {
+        "visible": "property:show-icon-364d1d"
+      },
+      "source": {
+        "pixsoNodeId": "comp-default-icon",
+        "fileKey": "filekey-abc"
+      },
+      "icon": {
+        "name": "Icon/search",
+        "normalizedName": "search",
+        "detectedVia": "namePrefix"
+      }
+    },
+    "node:label-bf5e7007": {
+      "id": "node:label-bf5e7007",
+      "type": "TEXT",
+      "name": "Label",
+      "position": {
+        "x": 28,
+        "y": 10
+      },
+      "size": {
+        "width": 60,
+        "height": 20
+      },
+      "componentPropertyReferences": {
+        "characters": "property:label-012f0b"
+      },
+      "source": {
+        "pixsoNodeId": "comp-default-label",
+        "fileKey": "filekey-abc"
+      },
+      "text": {
+        "characters": "Button",
+        "fontName": {
+          "family": "Inter",
+          "style": "Medium"
+        },
+        "fontSize": 14
+      }
+    },
+    "node:state-hover-ad49ea50": {
+      "id": "node:state-hover-ad49ea50",
+      "type": "COMPONENT",
+      "name": "State=Hover",
+      "position": {
+        "x": 0,
+        "y": 60
+      },
+      "size": {
+        "width": 120,
+        "height": 40
+      },
+      "autoLayout": {
+        "layoutMode": "HORIZONTAL",
+        "primaryAxisSizingMode": "AUTO",
+        "counterAxisAlignItems": "CENTER",
+        "paddingRight": 16,
+        "paddingLeft": 16,
+        "itemSpacing": 8
+      },
+      "geometry": {
+        "fills": [
+          {
+            "type": "SOLID",
+            "color": {
+              "r": 0.2,
+              "g": 0.4,
+              "b": 1
+            }
+          }
+        ]
+      },
+      "corners": {
+        "cornerRadius": 8
+      },
+      "source": {
+        "pixsoNodeId": "comp-hover",
+        "fileKey": "filekey-abc"
+      },
+      "children": [
+        "node:icon-search-603ef510",
+        "node:label-04fd60b0"
+      ]
+    },
+    "node:icon-search-603ef510": {
+      "id": "node:icon-search-603ef510",
+      "type": "ICON",
+      "name": "Icon/search",
+      "position": {
+        "x": 8,
+        "y": 12
+      },
+      "size": {
+        "width": 16,
+        "height": 16
+      },
+      "componentPropertyReferences": {
+        "visible": "property:show-icon-364d1d"
+      },
+      "source": {
+        "pixsoNodeId": "comp-hover-icon",
+        "fileKey": "filekey-abc"
+      },
+      "icon": {
+        "name": "Icon/search",
+        "normalizedName": "search",
+        "detectedVia": "namePrefix"
+      }
+    },
+    "node:label-04fd60b0": {
+      "id": "node:label-04fd60b0",
+      "type": "TEXT",
+      "name": "Label",
+      "position": {
+        "x": 28,
+        "y": 10
+      },
+      "size": {
+        "width": 60,
+        "height": 20
+      },
+      "componentPropertyReferences": {
+        "characters": "property:label-012f0b"
+      },
+      "source": {
+        "pixsoNodeId": "comp-hover-label",
+        "fileKey": "filekey-abc"
+      },
+      "text": {
+        "characters": "Button",
+        "fontName": {
+          "family": "Inter",
+          "style": "Medium"
+        },
+        "fontSize": 14
+      }
+    },
+    "node:label-77351638": {
+      "id": "node:label-77351638",
+      "type": "TEXT",
+      "name": "Label",
+      "source": {
+        "pixsoNodeId": "inst-label",
+        "fileKey": "filekey-abc"
+      },
+      "text": {
+        "characters": "Buy now",
+        "fontName": {
+          "family": "Inter",
+          "style": "Medium"
+        },
+        "fontSize": 14
+      }
+    },
+    "node:sep-e43ff5a1": {
+      "id": "node:sep-e43ff5a1",
+      "type": "VECTOR",
+      "name": "Sep",
+      "size": {
+        "width": 100,
+        "height": 1
+      },
+      "source": {
+        "pixsoNodeId": "inst-sep",
+        "fileKey": "filekey-abc"
+      }
+    },
+    "node:broken-area-7532ee87": {
+      "id": "node:broken-area-7532ee87",
+      "type": "FRAME",
+      "name": "Broken area",
+      "position": {
+        "x": 600,
+        "y": 200
+      },
+      "size": {
+        "width": 200,
+        "height": 100
+      },
+      "source": {
+        "pixsoNodeId": "frame-broken",
+        "fileKey": "filekey-abc"
+      },
+      "children": [
+        "node:detached-widget-93f72f68"
+      ]
+    },
+    "node:detached-widget-93f72f68": {
+      "id": "node:detached-widget-93f72f68",
+      "type": "INSTANCE",
+      "name": "Detached widget",
+      "size": {
+        "width": 100,
+        "height": 40
+      },
+      "source": {
+        "pixsoNodeId": "inst-broken",
+        "fileKey": "filekey-abc"
+      },
+      "presetRef": "node:detached-widget-93f72f68",
+      "children": [
+        "node:body-fd2bfff5",
+        "node:wave-37eaff8f"
+      ]
+    },
+    "node:body-fd2bfff5": {
+      "id": "node:body-fd2bfff5",
+      "type": "RECTANGLE",
+      "name": "Body",
+      "size": {
+        "width": 100,
+        "height": 40
+      },
+      "geometry": {
+        "fills": [
+          {
+            "type": "SOLID",
+            "color": {
+              "r": 0.9,
+              "g": 0.1,
+              "b": 0.1
+            }
+          }
+        ]
+      },
+      "source": {
+        "pixsoNodeId": "broken-rect",
+        "fileKey": "filekey-abc"
+      }
+    },
+    "node:wave-37eaff8f": {
+      "id": "node:wave-37eaff8f",
+      "type": "VECTOR",
+      "name": "Wave",
+      "size": {
+        "width": 100,
+        "height": 8
+      },
+      "source": {
+        "pixsoNodeId": "broken-wave",
+        "fileKey": "filekey-abc"
+      },
+      "svgRef": "svg:c9e6668ef6"
+    }
+  },
+  "components": {
+    "component:state-default-c8df7b4e": {
+      "portableId": "component:state-default-c8df7b4e",
+      "name": "State=Default",
+      "availability": "FULL",
+      "properties": [],
+      "source": {
+        "pixsoNodeId": "comp-default",
+        "fileKey": "filekey-abc"
+      },
+      "componentSetRef": "set:button-e1e5f532",
+      "variantProperties": {
+        "State": "Default"
+      },
+      "rootNodeRef": "node:state-default-c8df7b4e"
+    },
+    "component:state-hover-ad49ea50": {
+      "portableId": "component:state-hover-ad49ea50",
+      "name": "State=Hover",
+      "availability": "FULL",
+      "properties": [],
+      "source": {
+        "pixsoNodeId": "comp-hover",
+        "fileKey": "filekey-abc"
+      },
+      "componentSetRef": "set:button-e1e5f532",
+      "variantProperties": {
+        "State": "Hover"
+      },
+      "rootNodeRef": "node:state-hover-ad49ea50"
+    }
+  },
+  "componentSets": {
+    "set:button-e1e5f532": {
+      "portableId": "set:button-e1e5f532",
+      "name": "Button",
+      "availability": "FULL",
+      "variantGroupProperties": {
+        "State": {
+          "values": [
+            "Default",
+            "Hover"
+          ]
+        }
+      },
+      "properties": [
+        {
+          "portableId": "property:state-dc364e",
+          "rawPixsoPropertyName": "State",
+          "logicalPropertyName": "State",
+          "propertyType": "VARIANT",
+          "defaultValue": "Default",
+          "variantOptions": [
+            "Default",
+            "Hover"
+          ]
+        },
+        {
+          "portableId": "property:label-012f0b",
+          "rawPixsoPropertyName": "Label#1:2",
+          "logicalPropertyName": "Label",
+          "propertyType": "TEXT",
+          "defaultValue": "Button"
+        },
+        {
+          "portableId": "property:show-icon-364d1d",
+          "rawPixsoPropertyName": "Show icon#1:3",
+          "logicalPropertyName": "Show icon",
+          "propertyType": "BOOLEAN",
+          "defaultValue": true
+        }
+      ],
+      "componentRefs": [
+        "component:state-default-c8df7b4e",
+        "component:state-hover-ad49ea50"
+      ],
+      "description": "Primary button",
+      "libraryKey": "lib-key-button",
+      "source": {
+        "pixsoNodeId": "set-button",
+        "fileKey": "filekey-abc"
+      },
+      "defaultVariantRef": "component:state-default-c8df7b4e",
+      "rootNodeRef": "node:button-e1e5f532"
+    }
+  },
+  "instances": {
+    "node:button-a972b516": {
+      "portableId": "node:button-a972b516",
+      "nodeRef": "node:button-a972b516",
+      "preset": {
+        "availability": "FULL",
+        "variantProperties": {
+          "State": "Default"
+        },
+        "componentProperties": {
+          "State": {
+            "type": "VARIANT",
+            "value": "Default"
+          },
+          "Label": {
+            "type": "TEXT",
+            "value": "Buy now"
+          },
+          "Show icon": {
+            "type": "BOOLEAN",
+            "value": true
+          }
+        },
+        "overrides": [
+          {
+            "targetPath": [
+              {
+                "name": "Label",
+                "type": "TEXT",
+                "index": 0
+              }
+            ],
+            "changes": {
+              "characters": "Buy now"
+            }
+          }
+        ],
+        "exposedInstances": [],
+        "definitionName": "State=Default",
+        "definitionSetName": "Button",
+        "definitionSetRef": "set:button-e1e5f532",
+        "definitionRef": "component:state-default-c8df7b4e",
+        "textOverrides": [
+          {
+            "path": [
+              {
+                "name": "Label",
+                "type": "TEXT",
+                "index": 0
+              }
+            ],
+            "characters": "Buy now"
+          }
+        ]
+      }
+    },
+    "node:detached-widget-93f72f68": {
+      "portableId": "node:detached-widget-93f72f68",
+      "nodeRef": "node:detached-widget-93f72f68",
+      "preset": {
+        "availability": "SNAPSHOT_ONLY",
+        "variantProperties": {},
+        "componentProperties": {},
+        "overrides": [],
+        "exposedInstances": []
+      }
+    }
+  },
+  "styles": {
+    "style:bg-surface-e241aa23": {
+      "portableId": "style:bg-surface-e241aa23",
+      "styleType": "PAINT",
+      "name": "bg/surface",
+      "paints": [
+        {
+          "type": "SOLID",
+          "color": {
+            "r": 1,
+            "g": 1,
+            "b": 1
+          }
+        }
+      ]
+    }
+  },
+  "variableCollections": {},
+  "variables": {},
+  "images": {
+    "image:eeddc1d9b8": {
+      "portableId": "image:eeddc1d9b8",
+      "sourcePixsoHash": "img123",
+      "contentHash": "sha256:4353a1de7e0dcc4e87350e22d5c9ee9f3e70e8ce9c31533ec991bee8870c4814",
+      "bytesBase64": "iVBORw0KGgoBAgME",
+      "sizeBytes": 12,
+      "mimeType": "image/png"
+    }
+  },
+  "svgAssets": {
+    "svg:62354401be": "<svg viewBox=\"0 0 280 2\"><path d=\"M0 1h280\"/></svg>",
+    "svg:c9e6668ef6": "<svg viewBox=\"0 0 100 8\"><path d=\"M0 4q25-8 50 0t50 0\"/></svg>"
+  },
+  "iconDependencies": {
+    "close": {
+      "name": "Icon/close",
+      "normalizedName": "close",
+      "usageCount": 1
+    },
+    "search": {
+      "name": "Icon/search",
+      "normalizedName": "search",
+      "usageCount": 2
+    }
+  },
+  "fonts": [
+    {
+      "family": "Inter",
+      "style": "Medium",
+      "usageCount": 3
+    },
+    {
+      "family": "Inter",
+      "style": "Bold",
+      "usageCount": 1
+    }
+  ],
+  "reactions": [
+    {
+      "sourceNodeRef": "node:button-a972b516",
+      "trigger": {
+        "type": "ON_CLICK"
+      },
+      "actionType": "NODE",
+      "destinationRef": "node:state-hover-ad49ea50",
+      "transition": {
+        "type": "DISSOLVE",
+        "duration": 0.2
+      },
+      "raw": {
+        "trigger": {
+          "type": "ON_CLICK"
+        },
+        "action": {
+          "type": "NODE",
+          "destinationId": "comp-hover",
+          "transition": {
+            "type": "DISSOLVE",
+            "duration": 0.2
+          }
+        }
+      }
+    }
+  ],
+  "dependencies": {
+    "edges": [
+      {
+        "from": "node:screen-checkout-fd32254a",
+        "to": "style:bg-surface-e241aa23",
+        "relation": "USES_STYLE"
+      },
+      {
+        "from": "node:screen-checkout-fd32254a",
+        "to": "image:eeddc1d9b8",
+        "relation": "USES_IMAGE"
+      },
+      {
+        "from": "node:screen-checkout-fd32254a",
+        "to": "icon:close",
+        "relation": "USES_ICON"
+      },
+      {
+        "from": "component:state-default-c8df7b4e",
+        "to": "icon:search",
+        "relation": "USES_ICON"
+      },
+      {
+        "from": "set:button-e1e5f532",
+        "to": "component:state-default-c8df7b4e",
+        "relation": "HAS_VARIANT"
+      },
+      {
+        "from": "component:state-hover-ad49ea50",
+        "to": "icon:search",
+        "relation": "USES_ICON"
+      },
+      {
+        "from": "set:button-e1e5f532",
+        "to": "component:state-hover-ad49ea50",
+        "relation": "HAS_VARIANT"
+      },
+      {
+        "from": "node:screen-checkout-fd32254a",
+        "to": "set:button-e1e5f532",
+        "relation": "INSTANCE_OF"
+      }
+    ],
+    "order": [
+      "icon:close",
+      "icon:search",
+      "image:eeddc1d9b8",
+      "style:bg-surface-e241aa23",
+      "component:state-default-c8df7b4e",
+      "component:state-hover-ad49ea50",
+      "set:button-e1e5f532",
+      "node:screen-checkout-fd32254a"
+    ]
+  },
+  "fingerprints": {
+    "component:state-default-c8df7b4e": {
+      "contractHash": "sha256:a973e5385ea57a0b9cd7c1e0357938be26d79bf8eb52cbafe9b5f1ab24f62b38",
+      "structuralHash": "sha256:eab28e6cdbf0ebb86b7a68a44c21b2e56881565927aa3357fc5e6bed30a00655"
+    },
+    "component:state-hover-ad49ea50": {
+      "contractHash": "sha256:d9f2f585e6aeb36d52f57dec28ed0a4e6092afda1c03bbd535b4762157613d2d",
+      "structuralHash": "sha256:86f91d7aa6f77cfc1d5bafe2af41e9cdeb00e93898ac439a85b24f6d2eaf0228"
+    },
+    "set:button-e1e5f532": {
+      "contractHash": "sha256:3b5f7cca41e6b191caa645fa563b105111f83753dc454eff9eb1d3c9472213e1",
+      "structuralHash": "sha256:51dbb5b7992f2b8bcc09dddf8d234aa8504e24f2d1214c9b16ce770a39b55cb8"
+    },
+    "node:screen-checkout-fd32254a": {
+      "structuralHash": "sha256:ebe1f6117a21f504803ca04b76ea6cc5d24af03a94d7b6d97fc2443e5a4ec0bb"
+    },
+    "node:broken-area-7532ee87": {
+      "structuralHash": "sha256:ad693de205396c735cf825ee04fbd5d1cd988a9c71ca99fbfe21d99c54a2fca6"
+    }
+  },
+  "diagnostics": [
+    {
+      "code": "MAIN_COMPONENT_UNAVAILABLE",
+      "severity": "WARNING",
+      "stage": "instances",
+      "message": "mainComponent недоступен для \"Detached widget\": сохранён визуальный snapshot",
+      "portableId": "node:detached-widget-93f72f68",
+      "nodeName": "Detached widget",
+      "fallback": "SNAPSHOT_ONLY"
+    },
+    {
+      "code": "SNAPSHOT_FALLBACK_USED",
+      "severity": "INFO",
+      "stage": "instances",
+      "message": "Snapshot-поддерево сохранено для \"Detached widget\"",
+      "portableId": "node:detached-widget-93f72f68"
+    }
+  ]
+}

@@ -1,0 +1,15 @@
+{
+  "name": "Portable Exporter",
+  "id": "portable-exporter",
+  "editorType": [
+    "pixso"
+  ],
+  "main": "Main.js",
+  "ui": "Ui.html",
+  "menu": [
+    {
+      "name": "Export Portable JSON",
+      "command": "export-portable-json"
+    }
+  ]
+}

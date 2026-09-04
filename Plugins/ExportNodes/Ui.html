@@ -1,0 +1,476 @@
+<meta charset="utf-8" />
+<style>
+  :root {
+    --bg: #ffffff;
+    --panel: #f4f6f8;
+    --border: #dde2e8;
+    --text: #17202a;
+    --muted: #6a7280;
+    --accent: #2563eb;
+    --accent-soft: #dbeafe;
+    --warn: #b45309;
+    --warn-soft: #fef3c7;
+    --error: #b91c1c;
+    --error-soft: #fee2e2;
+    --ok: #15803d;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root {
+      --bg: #1d2128;
+      --panel: #272c34;
+      --border: #3a414c;
+      --text: #ecf1f6;
+      --muted: #98a3b3;
+      --accent: #60a5fa;
+      --accent-soft: #233248;
+      --warn: #fbbf24;
+      --warn-soft: #3a3020;
+      --error: #f87171;
+      --error-soft: #3d2429;
+      --ok: #4ade80;
+    }
+  }
+  * { box-sizing: border-box; }
+  body {
+    margin: 0;
+    background: var(--bg);
+    color: var(--text);
+    font: 12px/1.5 Inter, "SF Pro Text", -apple-system, "Segoe UI", Roboto, sans-serif;
+  }
+  header {
+    display: flex;
+    gap: 8px;
+    align-items: baseline;
+    padding: 12px 14px;
+    border-bottom: 1px solid var(--border);
+    position: sticky;
+    top: 0;
+    background: var(--bg);
+    z-index: 2;
+  }
+  header h1 { font-size: 13px; margin: 0; }
+  header .file { color: var(--muted); font-size: 11px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+  main { padding: 12px 14px 16px; display: flex; flex-direction: column; gap: 12px; }
+  section {
+    background: var(--panel);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 10px 12px;
+  }
+  section h2 {
+    margin: 0 0 8px;
+    font-size: 11px;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    color: var(--muted);
+  }
+  .selection-list { display: flex; flex-wrap: wrap; gap: 6px; }
+  .chip {
+    background: var(--accent-soft);
+    color: var(--accent);
+    border-radius: 999px;
+    padding: 2px 10px;
+    font-size: 11px;
+    max-width: 100%;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+  .chip .type { opacity: 0.7; margin-left: 4px; }
+  .muted { color: var(--muted); }
+  .options { display: grid; grid-template-columns: 1fr 1fr; gap: 4px 12px; }
+  .option { display: flex; align-items: center; gap: 6px; padding: 2px 0; cursor: pointer; }
+  .option input { margin: 0; }
+  .actions { display: flex; gap: 8px; align-items: center; }
+  button {
+    font: inherit;
+    border: 1px solid transparent;
+    border-radius: 8px;
+    padding: 7px 12px;
+    cursor: pointer;
+    background: var(--accent);
+    color: #fff;
+  }
+  button.ghost { background: transparent; color: var(--accent); border-color: var(--accent); }
+  button:disabled { opacity: 0.45; cursor: default; }
+  .spacer { flex: 1 1 auto; }
+  .progress { color: var(--muted); font-size: 11px; min-height: 16px; }
+  .stats { display: grid; grid-template-columns: repeat(3, 1fr); gap: 6px; }
+  .stat {
+    background: var(--bg);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 6px 8px;
+  }
+  .stat b { display: block; font-size: 15px; }
+  .stat span { color: var(--muted); font-size: 10px; }
+  .result-meta { display: flex; gap: 10px; align-items: baseline; flex-wrap: wrap; }
+  .result-meta .size { color: var(--muted); }
+  .diag-list { display: flex; flex-direction: column; gap: 4px; max-height: 160px; overflow: auto; }
+  .diag {
+    border-radius: 6px;
+    padding: 4px 8px;
+    font-size: 11px;
+    background: var(--bg);
+    border: 1px solid var(--border);
+  }
+  .diag.WARNING { background: var(--warn-soft); color: var(--warn); border-color: transparent; }
+  .diag.ERROR { background: var(--error-soft); color: var(--error); border-color: transparent; }
+  .diag .code { font-weight: 600; margin-right: 6px; }
+  .status { min-height: 18px; font-size: 11px; }
+  .status.ok { color: var(--ok); }
+  .status.error { color: var(--error); }
+  .hidden { display: none; }
+  textarea.fallback {
+    position: fixed;
+    left: -9999px;
+    top: 0;
+  }
+</style>
+
+<header>
+  <h1>Portable Exporter</h1>
+  <div class="file" id="file-info">…</div>
+</header>
+
+<main>
+  <section>
+    <h2>Выделение</h2>
+    <div class="selection-list" id="selection-list">
+      <span class="muted">Ничего не выделено</span>
+    </div>
+  </section>
+
+  <section>
+    <h2>Что включить в пакет</h2>
+    <div class="options">
+      <label class="option"><input type="checkbox" id="opt-deps" checked /> Зависимости компонентов</label>
+      <label class="option"><input type="checkbox" id="opt-styles" checked /> Стили</label>
+      <label class="option"><input type="checkbox" id="opt-variables" checked /> Переменные</label>
+      <label class="option"><input type="checkbox" id="opt-images" checked /> Изображения (base64)</label>
+      <label class="option"><input type="checkbox" id="opt-reactions" checked /> Реакции прототипа</label>
+      <label class="option"><input type="checkbox" id="opt-vector-svg" checked /> SVG для векторов</label>
+      <label class="option"><input type="checkbox" id="opt-icon-snapshots" /> SVG-снимки иконок</label>
+      <label class="option"><input type="checkbox" id="opt-instance-subtrees" checked /> Точное содержимое инстансов (для Figma)</label>
+      <label class="option"><input type="checkbox" id="opt-plugin-data" /> Plugin data узлов</label>
+      <label class="option"><input type="checkbox" id="opt-current-page" /> Вся текущая страница</label>
+      <label class="option"><input type="checkbox" id="opt-pretty" checked /> Форматированный JSON</label>
+    </div>
+  </section>
+
+  <section>
+    <div class="actions">
+      <button id="analyze" class="ghost">Проанализировать</button>
+      <button id="export">Экспортировать JSON</button>
+      <div class="spacer"></div>
+    </div>
+    <div class="progress" id="progress"></div>
+    <div class="status" id="status"></div>
+  </section>
+
+  <section id="analysis-section" class="hidden">
+    <h2>Анализ выделения</h2>
+    <div class="stats" id="analysis-stats"></div>
+    <p class="muted" id="analysis-note" style="margin:8px 0 0;"></p>
+  </section>
+
+  <section id="result-section" class="hidden">
+    <h2>Результат</h2>
+    <div class="result-meta">
+      <b id="result-file"></b>
+      <span class="size" id="result-size"></span>
+    </div>
+    <div class="actions" style="margin-top:8px;">
+      <button id="download" class="ghost" disabled>Скачать JSON</button>
+      <button id="copy" class="ghost" disabled>Копировать JSON</button>
+    </div>
+  </section>
+
+  <section id="diag-section" class="hidden">
+    <h2>Диагностика <span class="muted" id="diag-counts"></span></h2>
+    <div class="diag-list" id="diag-list"></div>
+  </section>
+</main>
+
+<textarea class="fallback" id="copy-fallback" tabindex="-1" aria-hidden="true"></textarea>
+
+<script>
+  (function () {
+    "use strict";
+
+    var state = {
+      json: null,
+      fileName: "portable-package.json",
+    };
+
+    var fileInfo = document.getElementById("file-info");
+    var selectionList = document.getElementById("selection-list");
+    var analyzeButton = document.getElementById("analyze");
+    var exportButton = document.getElementById("export");
+    var currentPageOption = document.getElementById("opt-current-page");
+    var exactInstancesOption = document.getElementById("opt-instance-subtrees");
+    var dependenciesOption = document.getElementById("opt-deps");
+    var vectorSvgOption = document.getElementById("opt-vector-svg");
+    var iconSnapshotsOption = document.getElementById("opt-icon-snapshots");
+    var progressEl = document.getElementById("progress");
+    var statusEl = document.getElementById("status");
+    var analysisSection = document.getElementById("analysis-section");
+    var analysisStats = document.getElementById("analysis-stats");
+    var analysisNote = document.getElementById("analysis-note");
+    var resultSection = document.getElementById("result-section");
+    var resultFile = document.getElementById("result-file");
+    var resultSize = document.getElementById("result-size");
+    var downloadButton = document.getElementById("download");
+    var copyButton = document.getElementById("copy");
+    var diagSection = document.getElementById("diag-section");
+    var diagList = document.getElementById("diag-list");
+    var diagCounts = document.getElementById("diag-counts");
+    var copyFallback = document.getElementById("copy-fallback");
+
+    function send(message) {
+      parent.postMessage({ pluginMessage: message }, "*");
+    }
+
+    function syncExactTransferOptions() {
+      var exact = exactInstancesOption.checked;
+      if (exact) {
+        dependenciesOption.checked = false;
+      }
+      dependenciesOption.disabled = exact;
+      vectorSvgOption.disabled = false;
+      iconSnapshotsOption.disabled = false;
+    }
+    exactInstancesOption.onchange = syncExactTransferOptions;
+    syncExactTransferOptions();
+
+    function readOptions() {
+      var exactInstances = document.getElementById("opt-instance-subtrees").checked;
+      return {
+        includeComponentDependencies: document.getElementById("opt-deps").checked && !exactInstances,
+        includeStyles: document.getElementById("opt-styles").checked,
+        includeVariables: document.getElementById("opt-variables").checked,
+        includeImages: document.getElementById("opt-images").checked,
+        includeReactions: document.getElementById("opt-reactions").checked,
+        includeVectorSvg: document.getElementById("opt-vector-svg").checked,
+        includeIconSnapshots: document.getElementById("opt-icon-snapshots").checked,
+        includeInstanceSubtrees: exactInstances,
+        visualSnapshotMode: exactInstances,
+        includePluginData: document.getElementById("opt-plugin-data").checked,
+        prettyJson: document.getElementById("opt-pretty").checked,
+      };
+    }
+
+    function setStatus(text, kind) {
+      statusEl.textContent = text || "";
+      statusEl.className = "status" + (kind ? " " + kind : "");
+    }
+
+    function setBusy(busy, progressText) {
+      analyzeButton.disabled = busy;
+      exportButton.disabled = busy;
+      progressEl.textContent = busy ? (progressText || "Работаю…") : "";
+    }
+
+    function formatBytes(byteCount) {
+      if (byteCount < 1024) return byteCount + " B";
+      if (byteCount < 1024 * 1024) return (byteCount / 1024).toFixed(1) + " KB";
+      return (byteCount / (1024 * 1024)).toFixed(2) + " MB";
+    }
+
+    function renderSelection(selection) {
+      selectionList.innerHTML = "";
+      if (!selection || !selection.count) {
+        var empty = document.createElement("span");
+        empty.className = "muted";
+        empty.textContent = "Ничего не выделено — выделите компонент, инстанс или фрейм";
+        selectionList.appendChild(empty);
+        return;
+      }
+      (selection.items || []).forEach(function (item) {
+        var chip = document.createElement("span");
+        chip.className = "chip";
+        chip.textContent = item.name || "(без имени)";
+        var type = document.createElement("span");
+        type.className = "type";
+        type.textContent = item.type;
+        chip.appendChild(type);
+        selectionList.appendChild(chip);
+      });
+      if (selection.count > (selection.items || []).length) {
+        var more = document.createElement("span");
+        more.className = "muted";
+        more.textContent = "и ещё " + (selection.count - selection.items.length);
+        selectionList.appendChild(more);
+      }
+    }
+
+    function addStat(value, label) {
+      var stat = document.createElement("div");
+      stat.className = "stat";
+      var b = document.createElement("b");
+      b.textContent = String(value);
+      var span = document.createElement("span");
+      span.textContent = label;
+      stat.appendChild(b);
+      stat.appendChild(span);
+      analysisStats.appendChild(stat);
+    }
+
+    function renderAnalysis(analysis) {
+      analysisSection.classList.remove("hidden");
+      analysisStats.innerHTML = "";
+      var counts = analysis.counts || {};
+      addStat(counts.nodesTotal || 0, "узлов");
+      addStat(counts.components || 0, "компонентов");
+      addStat(counts.componentSets || 0, "component sets");
+      addStat(counts.instances || 0, "инстансов");
+      addStat(counts.styles || 0, "стилей");
+      addStat(counts.variables || 0, "переменных");
+      addStat(counts.images || 0, "изображений");
+      addStat(counts.iconsUsage || 0, "иконок (" + (counts.iconsUnique || 0) + " уник.)");
+      addStat(counts.fonts || 0, "шрифтов");
+      analysisNote.textContent =
+        "Примерный размер: " + formatBytes(analysis.estimatedSizeBytes || 0) +
+        " (без бинарных данных изображений и SVG). Предупреждений: " + (analysis.warnings || []).length + ".";
+      renderDiagnostics(analysis.warnings || [], analysis.diagnosticsTotal || 0);
+    }
+
+    function renderDiagnostics(items, total) {
+      diagList.innerHTML = "";
+      var important = (items || []).filter(function (item) {
+        return item && item.severity !== "INFO";
+      });
+      diagCounts.textContent = important.length
+        ? "(" + important.length + " важных из " + (total || items.length) + ")"
+        : "(" + (total || items.length) + " info)";
+      if (!items || !items.length) {
+        diagSection.classList.add("hidden");
+        return;
+      }
+      diagSection.classList.remove("hidden");
+      var shown = important.length ? important : items.slice(0, 20);
+      shown.slice(0, 50).forEach(function (item) {
+        var row = document.createElement("div");
+        row.className = "diag " + (item.severity || "INFO");
+        var code = document.createElement("span");
+        code.className = "code";
+        code.textContent = item.code;
+        row.appendChild(code);
+        row.appendChild(document.createTextNode(item.message || ""));
+        diagList.appendChild(row);
+      });
+    }
+
+    function downloadJson() {
+      if (!state.json) return;
+      var blob = new Blob([state.json], { type: "application/json" });
+      var url = URL.createObjectURL(blob);
+      var link = document.createElement("a");
+      link.href = url;
+      link.download = state.fileName;
+      document.body.appendChild(link);
+      link.click();
+      document.body.removeChild(link);
+      setTimeout(function () { URL.revokeObjectURL(url); }, 2000);
+      setStatus("Файл " + state.fileName + " сохранён", "ok");
+    }
+
+    function copyJson() {
+      if (!state.json) return;
+      if (navigator.clipboard && navigator.clipboard.writeText) {
+        navigator.clipboard.writeText(state.json).then(
+          function () { setStatus("JSON скопирован в буфер", "ok"); },
+          function () { copyViaFallback(); }
+        );
+        return;
+      }
+      copyViaFallback();
+    }
+
+    function copyViaFallback() {
+      copyFallback.value = state.json;
+      copyFallback.focus();
+      copyFallback.select();
+      try {
+        document.execCommand("copy");
+        setStatus("JSON скопирован в буфер", "ok");
+      } catch (_e) {
+        setStatus("Не удалось скопировать — скачайте файл", "error");
+      }
+      copyFallback.blur();
+    }
+
+    analyzeButton.onclick = function () {
+      setBusy(true, "Анализ выделения…");
+      setStatus("");
+      send({ type: "analyze-selection", options: readOptions() });
+    };
+
+    exportButton.onclick = function () {
+      setBusy(true, "Экспорт…");
+      setStatus("");
+      resultSection.classList.add("hidden");
+      state.json = null;
+      send({
+        type: "export-full",
+        scope: currentPageOption && currentPageOption.checked ? "CURRENT_PAGE" : "SELECTION",
+        options: readOptions()
+      });
+    };
+
+    downloadButton.onclick = downloadJson;
+    copyButton.onclick = copyJson;
+
+    window.onmessage = function (event) {
+      var message = event.data && event.data.pluginMessage;
+      if (!message || !message.type) return;
+
+      if (message.type === "init") {
+        fileInfo.textContent = (message.fileName || "Untitled") +
+          (message.pageName ? " / " + message.pageName : "");
+        renderSelection(message.selection);
+        return;
+      }
+
+      if (message.type === "selection-changed") {
+        renderSelection(message.selection);
+        return;
+      }
+
+      if (message.type === "export-progress") {
+        progressEl.textContent = message.stage || "";
+        return;
+      }
+
+      if (message.type === "analysis-result") {
+        setBusy(false);
+        renderAnalysis(message.analysis || {});
+        setStatus("Анализ готов", "ok");
+        return;
+      }
+
+      if (message.type === "export-success") {
+        setBusy(false);
+        state.json = message.json;
+        state.fileName = message.fileName || "portable-package.json";
+        resultSection.classList.remove("hidden");
+        resultFile.textContent = state.fileName;
+        resultSize.textContent = formatBytes(message.sizeBytes || state.json.length);
+        downloadButton.disabled = false;
+        copyButton.disabled = false;
+        renderDiagnostics(message.diagnostics || [], (message.diagnostics || []).length);
+        setStatus("Экспорт завершён", "ok");
+        downloadJson();
+        return;
+      }
+
+      if (message.type === "export-error") {
+        setBusy(false);
+        setStatus("Ошибка: " + (message.message || "неизвестная"), "error");
+        return;
+      }
+    };
+
+    send({ type: "ui-ready" });
+  })();
+</script>

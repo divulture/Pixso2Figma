@@ -1,0 +1,16 @@
+<meta charset="utf-8" />
+<style>body{font:12px Inter,Arial,sans-serif;margin:16px;color:#1d1d1f}h1{font-size:15px;margin:0 0 8px}p{line-height:1.45;color:#60646c}input[type=file]{width:100%;margin:12px 0}input[type=checkbox]{width:auto;margin:0 6px 0 0}button{background:#18a0fb;border:0;border-radius:6px;color:white;padding:9px 14px;font:inherit}button:disabled{opacity:.5}#status{margin-top:12px;white-space:pre-wrap;line-height:1.45}.err{color:#c21b1b}.ok{color:#087a35}</style>
+<h1>Pixso → Figma</h1>
+<div style="color:#8a8f98;margin:-4px 0 8px">visual importer v0.8.3</div>
+<p>По умолчанию импортируется только визуальное дерево экрана. Страница <i>Pixso Components</i> создаётся лишь при явном импорте библиотеки или для старого JSON без snapshot-данных.</p>
+<input id="file" type="file" accept="application/json,.json" />
+<label><input id="components" type="checkbox" checked /> Собрать настоящие Figma-компоненты и инстансы</label><br/><br/>
+<label><input id="library" type="checkbox" /> Импортировать всю локальную библиотеку (медленнее)</label><br/><br/>
+<button id="import" disabled>Импортировать</button><div id="status"></div>
+<script>
+var pkg=null, file=document.getElementById('file'), components=document.getElementById('components'), library=document.getElementById('library'), button=document.getElementById('import'), status=document.getElementById('status');
+function send(m){ parent.postMessage({pluginMessage:m},'*'); }
+file.onchange=function(){var f=file.files[0]; if(!f)return; var r=new FileReader();r.onload=function(){try{pkg=JSON.parse(r.result);if(pkg.format!=='pixso-portable-package')throw Error('Нужен пакет pixso-portable-package');button.disabled=false;status.textContent='Готово: '+f.name;}catch(e){pkg=null;button.disabled=true;status.className='err';status.textContent=e.message;}};r.readAsText(f);};
+button.onclick=function(){button.disabled=true;status.className='';status.textContent='Импорт экрана…';send({type:'import-package',pkg:pkg,options:{includeLibrary:library.checked,promoteComponents:components.checked}});};
+window.onmessage=function(e){var m=e.data&&e.data.pluginMessage;if(!m)return;if(m.type==='import-progress'){status.textContent='Импорт экрана… создано слоёв: '+m.created;}if(m.type==='component-progress'){status.textContent='Сборка компонентов… '+m.current+' из '+m.total;}if(m.type==='import-result'){button.disabled=false;status.className=m.report.warnings.length?'':'ok';status.textContent='Готово: экранов '+m.report.roots+', компонентов '+m.report.nativeComponents+', сетов '+m.report.nativeComponentSets+', инстансов '+m.report.nativeInstances+', SVG '+m.report.svgNodesCreated+', стилей '+m.report.stylesCreated+', текстовых overrides '+m.report.textOverridesRestored+', stroke overrides '+m.report.strokeOverridesRestored+', нод '+m.report.created+'\nПредупреждений: '+m.report.warnings.length+(m.report.warnings.length?'\n'+m.report.warnings.slice(0,12).join('\n'):'');}if(m.type==='import-error'){button.disabled=false;status.className='err';status.textContent=m.message;}};
+</script>

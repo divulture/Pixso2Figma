@@ -1,0 +1,31 @@
+# Agent instructions
+AGENTS.md
+
+# macOS
+.DS_Store
+**/.DS_Store
+
+# Local configuration and secrets
+.env
+.env.*
+!.env.example
+
+# Editor settings
+.idea/
+.vscode/
+
+# Dependencies and generated output
+node_modules/
+dist/
+coverage/
+
+# Local Pixso exports
+node-full-*.json
+*.portable.json
+
+# Logs and temporary files
+*.log
+*.tmp
+*.swp
+*.swo
+*~

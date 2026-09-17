@@ -1,0 +1,23 @@
+{
+  "name": "Pixso2Figma",
+  "id": "1475061264051117238",
+  "api": "1.0.0",
+  "editorType": [
+    "figma"
+  ],
+  "documentAccess": "dynamic-page",
+  "main": "Main.js",
+  "ui": "Ui.html",
+  "menu": [
+    {
+      "name": "Import Design",
+      "command": "import-pixso-portable-json"
+    }
+  ],
+  "networkAccess": {
+    "allowedDomains": [
+      "http://localhost:8787"
+    ],
+    "reasoning": "Плагин получает пакеты миграции от локального bridge (node Bridge/Server.js). Других сетевых обращений нет."
+  }
+}

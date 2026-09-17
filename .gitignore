@@ -1,5 +1,10 @@
-# Agent instructions
+# Правила для агентов — локальные
 AGENTS.md
+
+# Dev-сборка (исследования), ассеты и тестовые файлы Pixso — не в git.
+Rainbow Dev/
+Assets/
+PIX/
 
 # macOS
 .DS_Store
@@ -24,6 +29,7 @@ node-full-*.json
 *.portable.json
 
 # Logs and temporary files
+**/Bridge/Logs/
 *.log
 *.tmp
 *.swp

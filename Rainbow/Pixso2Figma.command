@@ -9,6 +9,7 @@ set -u
 
 DIR="$(cd "$(dirname "$0")" && pwd)"
 LAUNCHER="$DIR/Launcher/Terminal.js"
+BOOTSTRAP="$DIR/Launcher/BootstrapNode.sh"
 
 keep_window_open() {
   echo
@@ -59,27 +60,34 @@ OSA
 }
 
 # Finder запускает .command не через логин-шелл, поэтому PATH может быть пустым.
-# Порядок поиска тот же, что в Bridge/Start.command.
-find_node() {
-  if command -v node >/dev/null 2>&1; then command -v node; return 0; fi
+# Берём первый совместимый Node, а не первый вообще: старый node в PATH
+# не должен мешать найти новый Homebrew/Volta/nvm или скачать частный runtime.
+node_is_compatible() {
+  local candidate="$1" version major minor
+  [ -x "$candidate" ] || return 1
+  version="$("$candidate" -p 'process.versions.node' 2>/dev/null)" || return 1
+  major="${version%%.*}"
+  minor="${version#*.}"
+  minor="${minor%%.*}"
+  case "$major" in ''|*[!0-9]*) return 1 ;; esac
+  case "$minor" in ''|*[!0-9]*) return 1 ;; esac
+  [ "$major" -gt 23 ] || { [ "$major" -eq 22 ] && [ "$minor" -ge 15 ]; }
+}
+
+find_compatible_node() {
+  local path_node=""
+  command -v node >/dev/null 2>&1 && path_node="$(command -v node)"
   local candidate
-  for candidate in \
+  for candidate in "$path_node" \
     /opt/homebrew/bin/node \
     /usr/local/bin/node \
     /usr/bin/node \
     "$HOME/.volta/bin/node" \
     "$HOME/.nvm/versions/node"/*/bin/node
   do
-    [ -x "$candidate" ] && { echo "$candidate"; return 0; }
+    node_is_compatible "$candidate" && { echo "$candidate"; return 0; }
   done
   return 1
-}
-
-NODE="$(find_node)" || {
-  echo "Node.js не найден."
-  echo "Установите его с https://nodejs.org и запустите файл снова."
-  keep_window_open
-  exit 1
 }
 
 if [ ! -f "$LAUNCHER" ]; then
@@ -89,24 +97,26 @@ if [ ! -f "$LAUNCHER" ]; then
   exit 1
 fi
 
-# Direct PIX распаковывает .pix через zlib.zstdDecompressSync — он появился
-# в Node 22.15 и 24. Более старая версия упала бы уже внутри migration.
-NODE_VERSION="$("$NODE" -v 2>/dev/null)"
-NODE_MAJOR="$(echo "${NODE_VERSION#v}" | cut -d. -f1)"
-NODE_MINOR="$(echo "${NODE_VERSION#v}" | cut -d. -f2)"
-case "$NODE_MAJOR" in
-  ''|*[!0-9]*) NODE_MAJOR=0 ;;
-esac
-case "$NODE_MINOR" in
-  ''|*[!0-9]*) NODE_MINOR=0 ;;
-esac
-if [ "$NODE_MAJOR" -lt 22 ] || { [ "$NODE_MAJOR" -eq 22 ] && [ "$NODE_MINOR" -lt 15 ]; } || [ "$NODE_MAJOR" -eq 23 ]; then
-  echo "Нужен Node.js 22.15+ или 24+, установлен $NODE_VERSION."
-  echo "Обновите Node.js с https://nodejs.org и запустите файл снова."
+NODE="$(find_compatible_node)" || {
+  if [ ! -f "$BOOTSTRAP" ]; then
+    echo "Не найден $BOOTSTRAP."
+    echo "Восстановите полную папку Pixso2Figma."
+    keep_window_open
+    exit 1
+  fi
+  NODE="$(/bin/bash "$BOOTSTRAP")" || {
+    keep_window_open
+    exit 1
+  }
+}
+
+if ! node_is_compatible "$NODE"; then
+  echo "Подготовленный Node.js не прошёл проверку версии."
   keep_window_open
   exit 1
 fi
 
+NODE_VERSION="$("$NODE" -v 2>/dev/null)"
 echo "Node:  $NODE ($NODE_VERSION)"
 echo
 

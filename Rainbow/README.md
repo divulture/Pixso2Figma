@@ -14,6 +14,24 @@ The project provides a convenient way to transfer a user-provided exported desig
 
 Pixso2Figma operates on files explicitly provided by the user.
 
+## Running Pixso2Figma
+
+1. In Figma, import `FigmaImporter/manifest.json` as a development plugin.
+2. Open the destination document, run **Pixso2Figma**, and start the Receiver.
+3. Double-click `Pixso2Figma.command` on macOS or `Pixso2Figma.cmd` on Windows.
+4. Drag one saved `.pix` file into the terminal window and press Enter.
+
+A separate Node.js installation is optional. The launcher uses a compatible
+system Node.js when available. Otherwise it automatically downloads a private,
+checksum-verified Node.js runtime from `nodejs.org` into the current user's
+application-data folder. This does not require administrator rights and does not
+modify `PATH`. The first launch requires internet access only when a compatible
+Node.js is not already installed; later launches use the cached runtime offline.
+
+On Windows, startup diagnostics are written to
+`%LOCALAPPDATA%\Pixso2Figma\launcher.log`, and startup failures leave the terminal
+window open so the error can be read.
+
 ## Independent Project
 
 Pixso2Figma is an independent, unofficial project.

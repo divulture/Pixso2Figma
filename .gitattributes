@@ -1,0 +1,8 @@
+# Windows launchers must be checked out with native line endings. Keeping this
+# explicit also prevents a future editor from reintroducing mixed encodings.
+Rainbow/*.cmd text eol=crlf
+Rainbow/Launcher/*.ps1 text eol=crlf
+
+# macOS launchers remain ordinary LF scripts.
+Rainbow/*.command text eol=lf
+Rainbow/Launcher/*.sh text eol=lf
